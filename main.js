@@ -24,11 +24,69 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
 
 
 // Add your functions below:
+const validateCred = array =>{
+  let finalDigit = array.slice(-1)
+  let arr2 = array.slice(0);
+  let reversedArr = arr2.reverse();
+  let sumModulo = 0
+    for(let i = 0; i < reversedArr.length ; i++){
+      if (i % 2 == 0){
+        sumModulo += reversedArr[i];
+      }
+      else {
+        let nineLess = reversedArr[i] * 2
+        if (nineLess > 9){
+          let nineLesser = nineLess - 9
+          sumModulo+= nineLesser
+        }
+        else{
+          sumModulo += nineLess
+        }
+      }
+    }
+  if (sumModulo % 10 == 0){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
 
-
-
-
-
-
-
-
+const findInvalidCards = arr =>{
+  let invalidCards = [];
+  for(i= 0; i <arr.length; i++){
+    if (validateCred(arr[i]) === false){
+      invalidCards.push([i]);
+    }
+  }
+  return invalidCards 
+}
+const idInvalidCardCompanies= arr =>{
+  let companiesWithInvalidCards =[];
+  for (let i = 0; i < arr.length; i++){
+    switch(arr[i][0]){
+      case 3:
+        if (!companiesWithInvalidCards.includes('Amex (American Express')){
+            companiesWithInvalidCards.push('Amex (American Express');
+        };
+      case 4:
+          if (!companiesWithInvalidCards.includes('Visa')){
+          companiesWithInvalidCards.push('Visa');
+          }
+      case 5:
+          if (!companiesWithInvalidCards.includes('Mastercard')){
+          companiesWithInvalidCards.push('Mastercard');
+          }
+      case 6:
+          if (!companiesWithInvalidCards.includes('Discover')){
+          companiesWithInvalidCards.push('Discover');
+          }
+      default:
+          if (!companiesWithInvalidCards.includes('Company not found')){
+          companiesWithInvalidCards.push('Company not found');
+          }
+    }
+  }
+  return companiesWithInvalidCards;
+}
+console.log(idInvalidCardCompanies(findInvalidCards(batch)));
